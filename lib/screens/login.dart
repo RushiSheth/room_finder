@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:room_finder/utils/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:room_finder/utils/apicalls.dart';
 
@@ -38,6 +39,12 @@ class _LoginState extends State<Login> {
         onWillPop: () => Future.value(false),
         child: Scaffold(
           key: _scaffoldKey,
+          bottomSheet: Row(mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextButton(onPressed: (){
+                Navigator.pushNamed(context, '/register');
+              }, child: Text('Register',style: Theme.of(context).textTheme.button.copyWith(wordSpacing: 1.0)))
+            ],),
           body: Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
@@ -118,6 +125,8 @@ class _LoginState extends State<Login> {
                               child: Text('LOGIN',style: Theme.of(context).textTheme.button.copyWith(color: Colors.white,letterSpacing: 1.0),),),
                           ],
                         ),
+                        SizedBox(height: 10,),
+
                         Center(
                           child: Visibility(
                               visible: _isLoading,
@@ -176,7 +185,6 @@ class _LoginState extends State<Login> {
     int i = await authUser(username,password);
     if(i==1){
       print('User Validated');
-      preferences.setString('Username', username);
       if(checked){
         preferences.setBool('loginstatus', true);
       }

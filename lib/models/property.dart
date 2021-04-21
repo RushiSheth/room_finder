@@ -18,6 +18,8 @@ class Property {
     this.propertyid,
     this.province,
     this.userid,
+    this.rent,
+    this.collegename,
   });
 
   String addressFirstLine;
@@ -28,6 +30,8 @@ class Property {
   int propertyid;
   String province;
   int userid;
+  int rent;
+  String collegename;
 
   factory Property.fromJson(Map<String, dynamic> json) => Property(
     addressFirstLine: json["address_first_line"],
@@ -38,6 +42,8 @@ class Property {
     propertyid: json["propertyid"],
     province: json["province"],
     userid: json["userid"],
+    rent: json["rent"],
+    collegename: json["collegename"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -49,5 +55,7 @@ class Property {
     "propertyid": propertyid,
     "province": province,
     "userid": userid,
+    "rent": rent,
+    "collegename": collegename
   };
 }

@@ -4,12 +4,13 @@ import 'package:room_finder/screens/propertydetails.dart';
 import 'package:room_finder/utils/apicalls.dart';
 import 'package:room_finder/models/property.dart';
 import 'package:room_finder/utils/theme.dart';
+import 'package:room_finder/utils/commonfunctions.dart';
 
 final List images = [
   "https://firebasestorage.googleapis.com/v0/b/livvn-2c605.appspot.com/o/Properties%2Froom1.jpg?alt=media&token=571619f6-4a14-4e08-9284-fba9bbc50a05",
 "https://firebasestorage.googleapis.com/v0/b/livvn-2c605.appspot.com/o/Properties%2Froom2.jpg?alt=media&token=e931349d-b4e0-4948-bb4c-64a1f5cd49a1",
-"https://firebasestorage.googleapis.com/v0/b/livvn-2c605.appspot.com/o/Properties%2Froom3.jpg?alt=media&token=e15c643a-cd23-4877-b7aa-622429be0d2f",
-"https://firebasestorage.googleapis.com/v0/b/livvn-2c605.appspot.com/o/Properties%2Froom4.jpg?alt=media&token=f732004b-7f7d-4063-afc6-9d35ca848340",
+"https://firebasestorage.googleapis.com/v0/b/livvn-2c605.appspot.com/o/Properties%2Froom3.jpg?alt=media&token=f96c3409-ec59-4369-a505-e5f4916f02d7",
+"https://firebasestorage.googleapis.com/v0/b/livvn-2c605.appspot.com/o/Properties%2Froom4.jpg?alt=media&token=48559833-e2e0-4f91-a30b-8656ed8ac30a",
 ];
 class PropertyView extends StatefulWidget {
   @override
@@ -30,8 +31,8 @@ class _PropertyViewState extends State<PropertyView> {
     else{
       text = text.toLowerCase();
       filterPropertyList = propertyList.where((property) {
-        var inventoryTitle  = property.area.toLowerCase();
-        return inventoryTitle.contains(text);
+        var collegeName  = property.collegename.toLowerCase();
+        return collegeName.contains(text);
       }).toList();
 
       return filterPropertyList;
@@ -163,7 +164,7 @@ class _PropertyViewState extends State<PropertyView> {
                                                 child: Container(
                                                   padding: EdgeInsets.all(10.0),
                                                   color: Colors.white,
-                                                  child: Text("\$40"),
+                                                  child: Text('\$' + snapshot.data[index].rent.toString()),
                                                 ),
                                               )
                                             ],
@@ -179,7 +180,13 @@ class _PropertyViewState extends State<PropertyView> {
                                                   color: appTheme().primaryColor,
                                                 ),),
                                                 SizedBox(height: 5.0,),
-                                                Text(snapshot.data[index].area + ',' + snapshot.data[index].city + ',' + snapshot.data[index].province),
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Text(snapshot.data[index].area + ',' + snapshot.data[index].city + ',' + snapshot.data[index].province),
+                                                    Text('Near '+snapshot.data[index].collegename),
+                                                  ],
+                                                ),
                                                 SizedBox(height: 10.0,),
                                                 Row(
                                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -212,84 +219,6 @@ class _PropertyViewState extends State<PropertyView> {
                                   },
 
                                 );
-//                                 return  Container(
-//                                   child: Card(
-//                                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-//                                     margin: EdgeInsets.only(top: 10,bottom: 10,left: 10,right: 10),
-//                                     elevation: 1.0,
-//                                     child: Padding(
-//                                       padding: const EdgeInsets.only(left: 5.0,right: 5.0,top: 10,bottom: 10),
-//                                       child: ExpansionTile(
-// //
-//                                         title: Text((index+1).toString() + '. ' +snapshot.data[index].FinalProduct,style: Theme.of(context).textTheme.subtitle1.copyWith(color: Theme.of(context).primaryColorDark),),
-//                                         trailing: Column(mainAxisAlignment: MainAxisAlignment.center,
-//                                           children: <Widget>[
-//                                             Text(
-//                                                 'Available',
-//                                                 style: Theme.of(context).textTheme.caption
-//                                             ),
-//                                             SizedBox(height: 5,),
-//                                             CircleAvatar(
-//                                               backgroundColor: Theme.of(context).primaryColor,
-//                                               radius: 15,
-//                                               child: Text(
-//                                                   snapshot.data[index].AvailaibleStock.toString(),
-//                                                   style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.white)
-//                                               ),
-//                                             ),
-//
-//                                           ],
-//                                         ),
-//                                         children: <Widget>[
-//                                           Container(
-//                                             margin: EdgeInsets.all(20),
-//                                             child: Row(
-//                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                                               children: <Widget>[
-//                                                 Column(
-//                                                   crossAxisAlignment: CrossAxisAlignment.start,
-//                                                   children: <Widget>[
-//                                                     Row(
-//                                                       children: <Widget>[
-//                                                         Text('Assigned Stock: ',style: Theme.of(context).textTheme.bodyText2.copyWith(color: Theme.of(context).primaryColorDark.withAlpha(200)),),
-//                                                         Text(snapshot.data[index].AssignStock.toString(),style: Theme.of(context).textTheme.bodyText2.copyWith(color: Theme.of(context).primaryColorDark),),
-//                                                       ],
-//                                                     ),
-//                                                     Row(
-//                                                       children: <Widget>[
-//                                                         Text('Used Stock: ',style: Theme.of(context).textTheme.bodyText2.copyWith(color: Theme.of(context).primaryColorDark.withAlpha(200)),),
-//                                                         Text(snapshot.data[index].UsedStock.toString(),style: Theme.of(context).textTheme.bodyText2.copyWith(color: Theme.of(context).primaryColorDark),),
-//                                                       ],
-//                                                     ),
-//
-//                                                   ],
-//                                                 ),
-//                                                 Column(
-//                                                   crossAxisAlignment: CrossAxisAlignment.start,
-//                                                   children: <Widget>[
-//                                                     Row(
-//                                                       children: <Widget>[
-//                                                         Text('Return Stock: ',style: Theme.of(context).textTheme.bodyText2.copyWith(color: Theme.of(context).primaryColorDark.withAlpha(200)),),
-//                                                         Text(snapshot.data[index].ReturnStock.toString(),style: Theme.of(context).textTheme.bodyText2.copyWith(color: Theme.of(context).primaryColorDark),),
-//                                                       ],
-//                                                     ),
-//                                                     Row(
-//                                                       children: <Widget>[
-//                                                         Text('Transfer Stock: ',style: Theme.of(context).textTheme.bodyText2.copyWith(color: Theme.of(context).primaryColorDark.withAlpha(200)),),
-//                                                         Text(snapshot.data[index].TransferStock.toString(),style: Theme.of(context).textTheme.bodyText2.copyWith(color: Theme.of(context).primaryColorDark),),
-//                                                       ],
-//                                                     ),
-//
-//                                                   ],
-//                                                 ),
-//                                               ],
-//                                             ),
-//                                           )
-//                                         ],
-//                                       ),
-//                                     ),
-//                                   ),
-//                                 );
                               },
                               ),
                             ),

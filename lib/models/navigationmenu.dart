@@ -9,6 +9,8 @@ class NavigationList {
 }
 List<NavigationList> navigationItems = [
   NavigationList(menu:"Home",icon: Icons.home, item: 0),
-  NavigationList(menu:"Add Property",icon: Icons.add_business,item: 1),
-  NavigationList(menu:"Favorites",icon: Icons.favorite,item: 2),
+  NavigationList(menu:"Favorites",icon: Icons.favorite,item: 1),
+  NavigationList(menu:"Add Property",icon: Icons.add_business,item: 2),
+  NavigationList(menu:"My Properties",icon: Icons.home_work_outlined,item: 3),
+
 ];

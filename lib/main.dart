@@ -4,6 +4,7 @@ import 'package:room_finder/screens/login.dart';
 import 'package:room_finder/screens/propertydetails.dart';
 import 'package:room_finder/screens/register.dart';
 import 'package:room_finder/screens/home.dart';
+import 'package:room_finder/screens/splash.dart';
 import 'package:room_finder/utils/theme.dart';
 
 
@@ -19,12 +20,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'RoomFinder',
       theme: appTheme(),
-      home: Home(),
+      home: SplashScreen(),
       routes: {
          '/login': (context) => Login(),
         '/home': (context) => Home(),
         '/propertydetails': (context) => PropertyDetails(),
-        // '/leaveApplication': (context) => LeaveApplication(),
+        '/register': (context)  => Registration(),
+         // '/leaveApplication': (context) => LeaveApplication(),
         // '/expenseVoucher':(context) => ExpenseVoucher(),
         // '/dataScreen':(context)=>DataScreen(),
         // '/inventoryScreen':(context)=>InventoryScreen(),

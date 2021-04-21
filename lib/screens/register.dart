@@ -1,12 +1,11 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:room_finder/models/college.dart';
 import 'dart:async';
 import 'package:room_finder/models/user.dart';
 import 'package:room_finder/utils/apicalls.dart';
+import 'package:room_finder/utils/commonfunctions.dart';
 import 'package:room_finder/utils/theme.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 class Registration extends StatefulWidget {
   @override
@@ -62,16 +61,6 @@ class _RegistrationState extends State<Registration>  {
         onWillPop: () => Future.value(false),
         child: Scaffold(
           body: Container(
-//            decoration: BoxDecoration(
-//                gradient: LinearGradient(
-//                  begin: Alignment.topCenter,
-//                  end: Alignment.bottomCenter,
-//                  colors: [
-//                    Colors.lime[50],
-//                    Colors.teal[100]
-//                  ],
-//                )
-//            ),
             child: SingleChildScrollView(
               child: Container(
                 margin: EdgeInsets.only(left: 20,top: 10,bottom: 10,right: 20),
@@ -105,10 +94,10 @@ class _RegistrationState extends State<Registration>  {
                             child: RaisedButton(
                                 color: Colors.transparent,
                                 elevation: 0.0,
-                                child: Text('CANCEL',style: TextStyle(color: Colors.teal,letterSpacing: 1.0),),
-                                onPressed: () async {
-                                  await getProperties();
-                                  // Navigator.pushReplacementNamed(context,'/home');
+                                child: Text('CANCEL',style: TextStyle(color: appTheme().primaryColorDark,letterSpacing: 1.0),),
+                                onPressed: () {
+
+                                  Navigator.pushReplacementNamed(context,'/login');
 
                                 }
                             ),
@@ -116,7 +105,7 @@ class _RegistrationState extends State<Registration>  {
                           SizedBox(width: 10,),
                           Expanded(
                             child: RaisedButton(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                                color: Colors.teal,
+                                color: appTheme().accentColor,
                                 child: Text('REGISTER',style: TextStyle(color: Colors.white,letterSpacing: 1.0),),
                                 splashColor: Colors.teal[200],
                                 onPressed: (){
@@ -143,26 +132,40 @@ class _RegistrationState extends State<Registration>  {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
-                                    Text('User Type',style: TextStyle(color: Colors.blueGrey),),
-                                    DropdownButton<String>(
-                                        iconEnabledColor: Colors.blueGrey,
-                                        style: TextStyle(color: Colors.blueGrey[600]),
-                                        value: usertype,
-                                        underline: Container(height: 2,color: Colors.blueGrey,),
-                                        icon: Icon(Icons.arrow_drop_down),
-                                        iconSize: 24,
-                                        elevation: 16,
-                                        items: _userType.map((String dropdownStringItem) {
-                                          return DropdownMenuItem<String>(
-                                            value: dropdownStringItem,
-                                            child: Text(dropdownStringItem,style: TextStyle(color: Colors.blueGrey),),
-                                          );
-                                        }).toList(),
-                                        onChanged: (value) {setState(() {
-                                          usertype = value;
-                                          user.usertype = usertype;
-                                        });
-                                        }
+                                    Text('User Type',style: TextStyle(color: appTheme().primaryColor),),
+                                    Container(
+                                      padding: EdgeInsets.only(left: 20,top: 10, right: 20,bottom: 10),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10.0),
+                                          color:
+                                          Theme.of(context).primaryColor.withOpacity(0.2),
+                                          border: Border.all(
+                                              color: Theme.of(context).primaryColor)),
+                                      child: DropdownButtonHideUnderline(
+                                        child: DropdownButton<String>(
+                                            iconEnabledColor: appTheme().primaryColor,
+                                            style: TextStyle(color: appTheme().primaryColorDark),
+                                            underline: Container(
+                                              height: 2,
+                                              color: Colors.blueGrey,
+                                            ),
+                                            icon: Icon(Icons.arrow_drop_down),
+                                            iconSize: 24,
+                                            elevation: 16,
+                                            value: usertype,
+                                            items: _userType.map((String dropdownStringItem) {
+                                              return DropdownMenuItem<String>(
+                                                value: dropdownStringItem,
+                                                child: Text(dropdownStringItem,style: TextStyle(color: Colors.blueGrey),),
+                                              );
+                                            }).toList(),
+                                            onChanged: (value) {setState(() {
+                                              usertype = value;
+                                              user.usertype = usertype;
+                                            });
+                                            }
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -295,6 +298,7 @@ class _RegistrationState extends State<Registration>  {
         _visibleRegisterForm = false;
         _isloading = false;
       });
+      displayMessage('Contact No already in use', context);
     }
     else{
       setState(() {
@@ -361,6 +365,7 @@ class _RegistrationState extends State<Registration>  {
         int temp = await registration(user);
         if(temp == 1){
           print("Registered Successfully");
+          displayMessage('Registered Successfully', context);
           setState(() {
             _isloading = false;
           });
@@ -370,6 +375,7 @@ class _RegistrationState extends State<Registration>  {
           setState(() {
             _isloading = false;
           });
+          displayMessage('Something went wrong', context);
           print("Something went wrong");
         }
       }
